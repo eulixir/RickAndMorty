@@ -8,7 +8,7 @@
 import Foundation
 
 final class RMRequest {
-    private struct Constants {
+    private enum Constants {
         static let baseUrl = "https://rickandmortyapi.com/api"
     }
     
@@ -24,23 +24,23 @@ final class RMRequest {
         string += endpoint.rawValue
         
         if !pathComponents.isEmpty {
-            pathComponents.forEach({
+            pathComponents.forEach {
                 string += "/\($0)"
-            })
+            }
         }
         
         if !queryParameters.isEmpty {
             string += "?"
-            let argumentString = queryParameters.compactMap({
-                guard let value = $0.value else {return nil}
+            let argumentString = queryParameters.compactMap {
+                guard let value = $0.value else { return nil }
                 return "\($0.name)=\(value)"
-            }).joined(separator: "&")
+            }.joined(separator: "&")
             
             string += argumentString
             
-            pathComponents.forEach({
+            pathComponents.forEach {
                 string += "/\($0)"
-            })
+            }
         }
         
         return string
